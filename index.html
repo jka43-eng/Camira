@@ -555,10 +555,11 @@ article .vid{display:block;width:100%;height:auto;border-radius:8px;background:#
 <style>
 </style>
 <style>
-/* Paper of the Week reels */
-.potw{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,326px),1fr));gap:18px;margin:1.6rem 0;max-width:1060px;align-items:start}
-.potw .instagram-media{margin:0!important;min-width:0!important;width:100%!important;max-width:540px!important;background:var(--panel);border:1px solid var(--rule)!important;border-radius:12px!important;box-shadow:none!important}
-.potw blockquote.instagram-media{padding:28px 20px;font:600 .95rem var(--f-ui);text-align:center}
+/* Paper of the Week reels: Instagram's own player, embedded directly (no script needed) */
+.potw{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px;margin:1.6rem 0;max-width:1060px;align-items:start}
+.potw .reel{margin:0;width:100%;max-width:400px;min-width:0}
+.potw .reel iframe{display:block;width:100%;aspect-ratio:9/16.4;min-height:560px;border:1px solid var(--rule);border-radius:12px;background:var(--panel)}
+.potw .reel figcaption{width:auto;min-width:0;margin-top:.5rem;font:600 .85rem var(--f-ui)}
 </style>
 <style>
 article figure:has(.plot){width:min(100%,720px)}
@@ -21180,7 +21181,7 @@ We are grateful for the help from the Perse School and the meaningful conversati
 
 <p>Our Paper of the Week videos performed well, with videos averaging 1,000 views, and a total watch time of over 20 hours. This is testament to how we were able to engage a wide audience in learning about synthetic biology, as we had intended!</p>
 <figure class="fig" markdown="0"><img src="https://static.igem.wiki/teams/5799/wiki/education/paperotw2.avif" style="max-width:min(100%,409px)" alt=""><figcaption>The collection of Paper of the Week videos completed by the iGEM team.</figcaption></figure>
-<div class="potw"><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DOejgd4iAse/" data-instgrm-version="14"><a href="https://www.instagram.com/reel/DOejgd4iAse/" target="_blank" rel="noopener">Watch this Paper of the Week video on Instagram (@igemcam)</a></blockquote><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DOynXUUiJwy/" data-instgrm-version="14"><a href="https://www.instagram.com/reel/DOynXUUiJwy/" target="_blank" rel="noopener">Watch this Paper of the Week video on Instagram (@igemcam)</a></blockquote><blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/reel/DMYDTaFo7qT/" data-instgrm-version="14"><a href="https://www.instagram.com/reel/DMYDTaFo7qT/" target="_blank" rel="noopener">Watch this Paper of the Week video on Instagram (@igemcam)</a></blockquote></div>
+<div class="potw"><figure class="reel"><iframe src="https://www.instagram.com/reel/DOejgd4iAse/embed/" title="Paper of the Week video 1 on Instagram (@igemcam)" loading="lazy" scrolling="no" allowtransparency="true" allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share" allowfullscreen></iframe><figcaption><a href="https://www.instagram.com/reel/DOejgd4iAse/" target="_blank" rel="noopener">Open on Instagram</a></figcaption></figure><figure class="reel"><iframe src="https://www.instagram.com/reel/DOynXUUiJwy/embed/" title="Paper of the Week video 2 on Instagram (@igemcam)" loading="lazy" scrolling="no" allowtransparency="true" allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share" allowfullscreen></iframe><figcaption><a href="https://www.instagram.com/reel/DOynXUUiJwy/" target="_blank" rel="noopener">Open on Instagram</a></figcaption></figure><figure class="reel"><iframe src="https://www.instagram.com/reel/DMYDTaFo7qT/embed/" title="Paper of the Week video 3 on Instagram (@igemcam)" loading="lazy" scrolling="no" allowtransparency="true" allow="autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share" allowfullscreen></iframe><figcaption><a href="https://www.instagram.com/reel/DMYDTaFo7qT/" target="_blank" rel="noopener">Open on Instagram</a></figcaption></figure></div>
 
 
 <p>The process of creating these videos was also an inspiring learning experience for team members. The inaccessibility of scientific papers is a huge problem, and we are well aware that our videos can only tackle it in a very limited way. But the process of translating technical terms and concepts requiring a high level of prerequisite knowledge into explanations understandable by the public acted as valuable practice for us. Moving forward in our studies or even careers in science, we feel better equipped to communicate the work we are doing with people outside of the field.</p>
@@ -24257,15 +24258,6 @@ function initPlant(){
   plant.addEventListener('click', pick);
 }
 
-/* ---------- Paper of the Week: Instagram's own embed script, loaded only when needed ---------- */
-function initInstagram(){
-  if (!document.querySelector('.instagram-media')) return;
-  if (window.instgrm) { window.instgrm.Embeds.process(); return; }
-  const sc = document.createElement('script'); sc.async = true; sc.src = 'https://www.instagram.com/embed.js';
-  sc.onload = () => window.instgrm && window.instgrm.Embeds.process();
-  document.body.append(sc);
-}
-
 /* ---------- Router ---------- */
 const main = $('#main');
 let current = null, spyOff = null;
@@ -24306,7 +24298,6 @@ function render(){
   $$('.chart', main).forEach(chart);
   if (page === 'engineering') initHub();
   if (page === 'members') initMembers();
-  if (page === 'education') initInstagram();
   if (!info) initPlant();
   if (sec) requestAnimationFrame(() => goSection(sec)); else window.scrollTo(0,0);
   main.focus({preventScroll:true});
